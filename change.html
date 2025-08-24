@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculate Change</title>
+</head>
+<body>
+  <h3>Calculate Change</h3>
+
+  <input id="amount" type="number" placeholder="Enter the amount">
+  <button onclick="calculate()">Submit</button>
+  <button onclick="goBack()">Back</button>
+
+  <p id="output"></p>
+
+  <script>
+    function calculate() {
+      let moneyInput = document.getElementById("amount").value;
+
+      // Validation: check if empty, not a number, or less than 1
+      if (moneyInput === "" || isNaN(moneyInput) || moneyInput < 1) {
+        alert("Please enter a valid positive amount.");
+        document.getElementById("output").innerHTML = "";
+        return;
+      }
+
+      let money = parseInt(moneyInput);
+      let output = "";
+      let baht = [500, 100, 50, 20, 1];
+
+      for (let b of baht) {
+        let count = Math.floor(money / b);
+        if (count > 0) {
+          output += count + " of Baht " + b + "<br>";
+          money %= b;
+        }
+      }
+
+      document.getElementById("output").innerHTML = output;
+    }
+
+    function goBack() {
+      history.back();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Distance Calculator - Romklao Campus</title>
+    <script>
+        // Function to get user's current position
+        function findDistance() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(calculateDistance, handleError);
+            } else {
+                document.getElementById("output").innerHTML = "Geolocation not supported in this browser.";
+            }
+        }
+
+        // Function to calculate distance using sqrt(x² + y²)
+        function calculateDistance(position) {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+
+            // Romklao Campus coordinates
+            const uniLat = 13.7973;
+            const uniLon = 100.7348;
+
+            // Calculate difference (111 km per degree latitude)
+            const x = (uniLat - userLat) * 111;
+            const y = (uniLon - userLon) * 111 * Math.cos(userLat * Math.PI / 180);
+
+            const distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+
+            // Update HTML element using innerHTML
+            document.getElementById("output").innerHTML = 
+                `You're ${distance.toFixed(2)} km away from Kasem Bundit University (Romklao Campus).`;
+        }
+
+        // Handle possible geolocation errors
+        function handleError(error) {
+            const msg = {
+                1: "Permission denied. Please allow location access.",
+                2: "Position unavailable.",
+                3: "Request timed out."
+            };
+            document.getElementById("output").innerHTML = msg[error.code] || "An unknown error occurred.";
+        }
+    </script>
+</head>
+<body>
+    <h2>How far from Kasem Bundit University? (Romklao Campus)</h2>
+    <button onclick="findDistance()">Where am I?</button>
+    <p id="output"></p>
+</body>
+</html>
